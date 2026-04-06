@@ -225,20 +225,8 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:20px 5
 /* ─── ANIMATIONS ─── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
-@keyframes slideInLeft{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
-@keyframes slideInRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-@keyframes scaleIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.65s ease,transform 0.65s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
-.slide-left{opacity:0;transform:translateX(-40px);transition:opacity 0.7s ease,transform 0.7s ease}
-.slide-left.in{opacity:1;transform:translateX(0)}
-.slide-right{opacity:0;transform:translateX(40px);transition:opacity 0.7s ease,transform 0.7s ease}
-.slide-right.in{opacity:1;transform:translateX(0)}
-.scale-in{opacity:0;transform:scale(0.9);transition:opacity 0.6s ease,transform 0.6s ease}
-.scale-in.in{opacity:1;transform:scale(1)}
-.stagger-item{opacity:0;transform:translateY(15px);transition:opacity 0.5s ease,transform 0.5s ease}
-.stagger-item.in{opacity:1;transform:translateY(0)}
 </style>
 </head>
 <body>
@@ -319,12 +307,12 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:20px 5
   <div class="section-eyebrow reveal">The Current Reality</div>
   <h2 class="section-heading reveal">Most schools are still running on <span class="gold">paper, Excel, and guesswork.</span></h2>
   <div class="pain-grid reveal">
-    <div class="pain-card stagger-item"><div class="pain-number">01</div>div><div class="pain-title">Report cards done manually</div><p class="pain-desc">Teac hand in mark sheets, someone types them up, errors happen, reprinting costs money, and term end is a crisis every time.</p></div>
-    <div class="pain-card stagger-item"><div class="pain-number">02</div><div class="pain-title">Fee tracking is a mess</div><p class="pain-desc">Bursars use exercise books or Excel. Outstanding balances are unclear. Parents dispute payments. The head never knows the real picture.</p></div>
-    <div class="pain-card stagger-item"><div class="pain-number">03</div><div class="pain-title">Staff records are scattered</div><p class="pain-desc">Contracts in a drawer, attendance in a book, payroll in someone's head. HR at most schools is completely undigitised.</p></div>
-    <div class="pain-card stagger-item"><div class="pain-number">04</div><div class="pain-title">No real-time visibility</div><p class="pain-desc">The headteacher has to ask four different people to get a picture of what is happening. There is no single source of truth.</p></div>
-    <div class="pain-card stagger-item"><div class="pain-number">05</div><div class="pain-title">Internet is unreliable</div><p class="pain-desc">Most systems stop working when internet goes out. Bursars cannot record payments. Everything halts. That is not acceptable here.</p></div>
-    <div class="pain-card stagger-item"><div class="pain-number">06</div><div class="pain-title">Generic systems don't fit</div><p class="pain-desc">Every school has their own report card format, grading scale, and fee structure. One size never fits all and nobody builds for Uganda.</p></div>
+    <div class="pain-card"><div class="pain-number">01</div><div class="pain-title">Report cards done manually</div><p class="pain-desc">Teachers hand in mark sheets, someone types them up, errors happen, reprinting costs money, and term end is a crisis every time.</p></div>
+    <div class="pain-card"><div class="pain-number">02</div><div class="pain-title">Fee tracking is a mess</div><p class="pain-desc">Bursars use exercise books or Excel. Outstanding balances are unclear. Parents dispute payments. The head never knows the real picture.</p></div>
+    <div class="pain-card"><div class="pain-number">03</div><div class="pain-title">Staff records are scattered</div><p class="pain-desc">Contracts in a drawer, attendance in a book, payroll in someone's head. HR at most schools is completely undigitised.</p></div>
+    <div class="pain-card"><div class="pain-number">04</div><div class="pain-title">No real-time visibility</div><p class="pain-desc">The headteacher has to ask four different people to get a picture of what is happening. There is no single source of truth.</p></div>
+    <div class="pain-card"><div class="pain-number">05</div><div class="pain-title">Internet is unreliable</div><p class="pain-desc">Most systems stop working when internet goes out. Bursars cannot record payments. Everything halts. That is not acceptable here.</p></div>
+    <div class="pain-card"><div class="pain-number">06</div><div class="pain-title">Generic systems don't fit</div><p class="pain-desc">Every school has their own report card format, grading scale, and fee structure. One size never fits all and nobody builds for Uganda.</p></div>
   </div>
 </section>
 
@@ -527,76 +515,3 @@ function switchRole(role, btn) {
 </script>
 </body>
 </html>
-
-
-<script>
-// Intersection Observer for scroll animations
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      // Add stagger delay for items in the same container
-      if (entry.target.classList.contains('stagger-item')) {
-        const items = entry.target.parentElement.querySelectorAll('.stagger-item');
-        items.forEach((item, i) => {
-          setTimeout(() => {
-            item.classList.add('in');
-          }, i * 100);
-        });
-      } else {
-        entry.target.classList.add('in');
-      }
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
-
-// Observe all animated elements
-document.addEventListener('DOMContentLoaded', () => {
-  const animatedElements = document.querySelectorAll('.reveal, .slide-left, .slide-right, .scale-in, .stagger-item');
-  animatedElements.forEach(el => observer.observe(el));
-  
-  // Role tabs functionality
-  const tabs = document.querySelectorAll('.role-tab');
-  const contents = document.querySelectorAll('.role-content');
-  
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = tab.dataset.role;
-      
-      tabs.forEach(t => t.classList.remove('active'));
-      contents.forEach(c => c.classList.remove('active'));
-      
-      tab.classList.add('active');
-      document.getElementById(target).classList.add('active');
-    });
-  });
-  
-  // Smooth scroll for navigation links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-  
-  // Add parallax effect to hero background
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero && scrolled < window.innerHeight) {
-      hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-    }
-  });
-});
-</script>
