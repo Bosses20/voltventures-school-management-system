@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Management System — Volt Ventures Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #080806;
+  --gold: #c9a52a;
+  --gold-light: #e8c040;
+  --gold-dim: #7a6118;
+  --gold-glow: rgba(201,165,42,0.12);
+  --white: #f8f7f2;
+  --gray: #7a7a72;
+  --gray-mid: #a8a89e;
+  --gray-light: #d0d0c8;
+  --surface: #111110;
+  --surface2: #181816;
+  --surface3: #1e1e1b;
+  --border: rgba(201,165,42,0.15);
+  --border-strong: rgba(201,165,42,0.35);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Instrument Sans',sans-serif;font-size:16px;line-height:1.65;overflow-x:hidden}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 56px;background:rgba(8,8,6,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.01em;display:flex;align-items:center;gap:10px}
+.nav-logo-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;flex-shrink:0}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:var(--gray);text-decoration:none;font-size:12px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:120px 56px 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(201,165,42,0.06) 0%,transparent 70%);pointer-events:none}
+.hero-left{}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:fadeUp 0.7s ease forwards 0.1s}
+.hero-eyebrow-line{width:20px;height:1px;background:var(--gold)}
+.hero-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,5.5vw,78px);line-height:1;letter-spacing:-0.03em;opacity:0;animation:fadeUp 0.8s ease forwards 0.2s}
+.hero-title .gold{color:var(--gold)}
+.hero-title .muted{color:var(--gray);display:block;font-weight:500;font-size:0.75em;margin-top:8px}
+.hero-desc{margin-top:28px;font-size:17px;font-weight:300;color:var(--gray-light);max-width:500px;line-height:1.75;opacity:0;animation:fadeUp 0.8s ease forwards 0.35s}
+.hero-actions{margin-top:40px;display:flex;gap:16px;align-items:center;opacity:0;animation:fadeUp 0.8s ease forwards 0.5s}
+.btn-gold{background:var(--gold);color:var(--black);font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.07em;text-transform:uppercase;padding:13px 26px;text-decoration:none;display:inline-block;transition:background 0.2s,transform 0.15s;border-radius:2px}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-line{color:var(--gray-mid);font-size:13px;font-weight:400;text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s;letter-spacing:0.02em}
+.btn-line:hover{color:var(--white)}
+.hero-stats{margin-top:56px;display:flex;gap:40px;opacity:0;animation:fadeUp 0.8s ease forwards 0.65s;border-top:1px solid var(--border);padding-top:36px}
+.stat-item{}
+.stat-num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:32px;color:var(--gold);letter-spacing:-0.02em;line-height:1}
+.stat-label{font-size:11px;color:var(--gray);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px}
+
+/* ─── HERO VISUAL ─── */
+.hero-right{opacity:0;animation:fadeUp 0.9s ease forwards 0.4s;position:relative}
+.dashboard-mock{background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(201,165,42,0.08)}
+.mock-topbar{background:var(--surface);padding:12px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.mock-dots{display:flex;gap:6px}
+.mock-dot{width:10px;height:10px;border-radius:50%}
+.mock-dot:nth-child(1){background:#ff5f57}
+.mock-dot:nth-child(2){background:#febc2e}
+.mock-dot:nth-child(3){background:#28c840}
+.mock-title{font-size:12px;color:var(--gray);font-weight:400;margin-left:8px;letter-spacing:0.04em}
+.mock-body{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mock-card{background:var(--surface3);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:16px}
+.mock-card-label{font-size:10px;color:var(--gray);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px}
+.mock-card-val{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;color:var(--white)}
+.mock-card-sub{font-size:11px;color:var(--gold);margin-top:3px}
+.mock-card.highlight{border-color:var(--border-strong);background:rgba(201,165,42,0.07)}
+.mock-bar-row{margin-top:6px;display:flex;flex-direction:column;gap:5px}
+.mock-bar-item{display:flex;align-items:center;gap:8px}
+.mock-bar-name{font-size:10px;color:var(--gray);width:32px;flex-shrink:0}
+.mock-bar-track{flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.mock-bar-fill{height:100%;border-radius:3px;background:var(--gold);transition:width 1.5s ease}
+.mock-bar-pct{font-size:10px;color:var(--gray-mid);width:28px;text-align:right;flex-shrink:0}
+.mock-wide{grid-column:1/-1}
+.mock-list-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.mock-list-row:last-child{border:none}
+.mock-list-name{font-size:12px;color:var(--gray-light)}
+.mock-list-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px}
+.badge-paid{background:rgba(74,222,128,0.12);color:#4ade80}
+.badge-pending{background:rgba(201,165,42,0.15);color:var(--gold)}
+.badge-over{background:rgba(248,113,113,0.12);color:#f87171}
+
+/* ─── SHARED SECTION STYLES ─── */
+section{padding:100px 56px;position:relative}
+.section-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-eyebrow::before{content:'';width:16px;height:1px;background:var(--gold);flex-shrink:0}
+.section-heading{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,3.8vw,52px);line-height:1.05;letter-spacing:-0.025em;max-width:720px;margin-bottom:56px}
+.section-heading .gold{color:var(--gold)}
+
+/* ─── PROBLEM ─── */
+.problem{background:var(--surface)}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);max-width:1000px}
+.pain-card{background:var(--surface2);padding:36px 30px;transition:background 0.3s}
+.pain-card:hover{background:var(--surface3)}
+.pain-number{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:48px;color:rgba(201,165,42,0.15);line-height:1;margin-bottom:16px}
+.pain-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:16px;margin-bottom:10px;color:var(--white)}
+.pain-desc{font-size:13px;color:var(--gray);line-height:1.7;font-weight:300}
+
+/* ─── SYSTEM OVERVIEW VISUAL ─── */
+.overview-section{padding:100px 56px;background:var(--black)}
+.overview-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start;max-width:1100px}
+.overview-text .section-heading{margin-bottom:28px}
+.overview-desc{font-size:15px;color:var(--gray-light);line-height:1.8;font-weight:300;margin-bottom:32px}
+.overview-checkmarks{list-style:none;display:flex;flex-direction:column;gap:12px}
+.overview-checkmarks li{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--gray-light);font-weight:300;line-height:1.5}
+.check-icon{width:20px;height:20px;background:var(--gold-glow);border:1px solid var(--border-strong);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:10px;color:var(--gold)}
+.arch-visual{display:flex;flex-direction:column;gap:8px}
+.arch-row{display:flex;gap:8px}
+.arch-block{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 18px;transition:border-color 0.3s,transform 0.2s}
+.arch-block:hover{border-color:var(--border-strong);transform:translateY(-2px)}
+.arch-block.span2{flex:2.2}
+.arch-block.gold-tint{border-color:var(--border-strong);background:rgba(201,165,42,0.05)}
+.arch-icon{font-size:18px;margin-bottom:8px;display:block}
+.arch-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:13px;color:var(--white);margin-bottom:4px}
+.arch-sub{font-size:11px;color:var(--gray);font-weight:300;line-height:1.5}
+.arch-divider{height:1px;background:var(--border);margin:4px 0}
+.arch-label-row{display:flex;align-items:center;gap:6px;padding:10px 0}
+.arch-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-dim)}
+.arch-label-line{flex:1;height:1px;background:var(--border)}
+
+/* ─── MODULES ─── */
+.modules-section{background:var(--surface);padding:100px 56px}
+.modules-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1100px}
+.mod-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:26px 22px;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.2s}
+.mod-card:hover{border-color:var(--border-strong);transform:translateY(-3px)}
+.mod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform 0.4s;transform-origin:left}
+.mod-card:hover::before{transform:scaleX(1)}
+.mod-icon-wrap{width:40px;height:40px;background:var(--gold-glow);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:18px}
+.mod-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px;margin-bottom:12px;color:var(--white)}
+.mod-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.mod-list li{font-size:12px;color:var(--gray);font-weight:300;padding-left:12px;position:relative;line-height:1.5}
+.mod-list li::before{content:'·';position:absolute;left:0;color:var(--gold-dim);font-size:16px;line-height:1.2}
+
+/* ─── OFFLINE ─── */
+.offline-section{padding:100px 56px;background:var(--black)}
+.offline-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px}
+.offline-visual{background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.offline-visual-header{background:var(--surface);padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.offline-status{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold)}
+.status-pulse{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1.8s ease infinite}
+.offline-visual-body{padding:20px 24px;display:flex;flex-direction:column;gap:0}
+.sync-item{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.sync-item:last-child{border:none}
+.sync-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.d-green{background:#4ade80}
+.d-gold{background:var(--gold);animation:pulse 1.5s ease infinite}
+.d-gray{background:#333}
+.sync-text{flex:1;font-size:12px;color:var(--gray-light);font-weight:300}
+.sync-badge{font-size:10px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
+.sb-ok{background:rgba(74,222,128,0.1);color:#4ade80}
+.sb-pending{background:rgba(201,165,42,0.12);color:var(--gold)}
+.sb-queue{background:rgba(255,255,255,0.05);color:#555}
+.offline-footer-bar{background:var(--surface);padding:12px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.offline-footer-bar span:first-child{font-size:11px;color:var(--gray)}
+.offline-footer-bar span:last-child{font-size:11px;color:var(--gold);font-weight:500;letter-spacing:0.04em}
+.offline-points{list-style:none;display:flex;flex-direction:column;gap:0}
+.offline-point{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:1px solid var(--border)}
+.offline-point:last-child{border:none}
+.op-num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:13px;color:var(--gold-dim);flex-shrink:0;margin-top:1px;min-width:24px}
+.op-text{font-size:14px;color:var(--gray-light);font-weight:300;line-height:1.65}
+
+/* ─── WHO USES IT ─── */
+.roles-section{background:var(--surface);padding:100px 56px}
+.role-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);max-width:1000px;margin-bottom:0;overflow-x:auto}
+.role-tab{padding:13px 22px;font-size:12px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--gray);cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;font-family:'Instrument Sans',sans-serif;white-space:nowrap;transition:color 0.2s,border-color 0.2s}
+.role-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.role-tab:hover:not(.active){color:var(--white)}
+.role-content{display:none;max-width:1000px;padding-top:48px}
+.role-content.active{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:start}
+.role-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:32px;letter-spacing:-0.02em;margin-bottom:10px}
+.role-desc{font-size:14px;color:var(--gray);font-weight:300;line-height:1.75;margin-bottom:24px}
+.access-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--gold);background:var(--gold-glow);border:1px solid var(--border-strong);padding:5px 12px;border-radius:20px}
+.access-pill::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%}
+.feat-list{list-style:none;margin-top:40px}
+.feat-list li{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:14px;color:var(--gray-light);font-weight:300;line-height:1.55}
+.feat-list li::before{content:'✓';color:var(--gold);font-weight:700;font-size:12px;flex-shrink:0;margin-top:2px}
+
+/* ─── PLANS ─── */
+.plans-section{background:var(--black);padding:100px 56px}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:900px;margin-top:16px}
+.plan-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:36px 30px;position:relative;transition:border-color 0.3s,transform 0.2s}
+.plan-card:hover{transform:translateY(-3px)}
+.plan-card.featured{border-color:var(--border-strong);background:rgba(201,165,42,0.04)}
+.plan-card.featured::before{content:'Most Popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--black);background:var(--gold);padding:3px 12px;border-radius:20px}
+.plan-tag{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;display:block}
+.plan-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;margin-bottom:4px}
+.plan-school{font-size:12px;color:var(--gray);font-weight:300;margin-bottom:28px;line-height:1.5}
+.plan-pricing-placeholder{background:rgba(201,165,42,0.06);border:1px dashed var(--border-strong);border-radius:8px;padding:18px 20px;margin-bottom:28px;text-align:center}
+.plan-pricing-placeholder p{font-size:12px;color:var(--gold-dim);font-weight:400;letter-spacing:0.04em}
+.plan-pricing-placeholder strong{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:18px;color:var(--gold);font-weight:700;margin-top:4px}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:8px}
+.plan-feats li{font-size:13px;color:var(--gray-light);font-weight:300;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.plan-feats li::before{content:'—';color:var(--gold-dim);font-size:10px;flex-shrink:0;margin-top:3px}
+.plans-note{margin-top:32px;max-width:700px;background:rgba(201,165,42,0.05);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:20px 24px}
+.plans-note p{font-size:14px;color:var(--gray-light);font-weight:300;line-height:1.75;font-style:italic}
+.plans-note strong{color:var(--white);font-weight:500;font-style:normal}
+
+/* ─── CLOSING ─── */
+.closing{background:var(--surface);padding:120px 56px;text-align:center;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
+.closing::before{content:'';position:absolute;top:-300px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(201,165,42,0.07) 0%,transparent 65%);pointer-events:none}
+.closing-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(36px,5vw,68px);line-height:1.02;letter-spacing:-0.03em;max-width:700px;margin-bottom:20px}
+.closing-title .gold{color:var(--gold)}
+.closing-sub{font-size:16px;color:var(--gray);font-weight:300;max-width:460px;margin-bottom:40px;line-height:1.75}
+.company-row{display:flex;gap:0;border:1px solid var(--border);margin-top:48px;background:var(--surface2)}
+.company-cell{padding:20px 28px;border-right:1px solid var(--border);text-align:left}
+.company-cell:last-child{border:none}
+.company-cell-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:5px}
+.company-cell-val{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:14px;color:var(--white)}
+.closing-bg-text{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);font-family:'Bricolage Grotesque',sans-serif;font-size:180px;font-weight:800;color:rgba(201,165,42,0.025);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-0.05em}
+
+/* ─── FOOTER ─── */
+footer{background:var(--black);border-top:1px solid var(--border);padding:20px 56px;display:flex;align-items:center;justify-content:space-between}
+.footer-brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;display:flex;align-items:center;gap:8px}
+.footer-brand span{color:var(--gold)}
+.footer-mid{font-size:12px;color:var(--gray);font-weight:300}
+.footer-reg{font-size:11px;color:#3a3a36}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.65s ease,transform 0.65s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><div class="nav-logo-dot"></div><span>VOLT</span>&nbsp;VENTURES GROUP</div>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#system">System</a></li>
+    <li><a href="#offline">Offline</a></li>
+    <li><a href="#roles">Who Uses It</a></li>
+    <li><a href="#plans">Plans</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow"><div class="hero-eyebrow-line"></div>Volt Ventures Group — School Management System</div>
+    <h1 class="hero-title">Run your school.<br><span class="gold">Without the chaos.</span><span class="muted">Everything in one system.</span></h1>
+    <p class="hero-desc">Fees, report cards, staff records, and academic results — managed from a single platform built specifically for Ugandan schools. Works offline. Built to last.</p>
+    <div class="hero-actions">
+      <a href="#system" class="btn-gold">See the System</a>
+      <a href="#plans" class="btn-line">View Plans →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Core Modules</div></div>
+      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">User Roles</div></div>
+      <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Offline Capable</div></div>
+      <div class="stat-item"><div class="stat-num">UG</div><div class="stat-label">Built For Uganda</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="dashboard-mock">
+      <div class="mock-topbar">
+        <div class="mock-dots"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+        <div class="mock-title">Admin Dashboard — Mukono Mixed School</div>
+      </div>
+      <div class="mock-body">
+        <div class="mock-card highlight">
+          <div class="mock-card-label">Fees Collected</div>
+          <div class="mock-card-val">UGX 18.4M</div>
+          <div class="mock-card-sub">↑ 12% vs last term</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">Outstanding</div>
+          <div class="mock-card-val">UGX 4.1M</div>
+          <div class="mock-card-sub" style="color:#f87171">47 students</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">Term Pass Rate</div>
+          <div class="mock-card-val">78%</div>
+          <div class="mock-card-sub">↑ 5% from T1</div>
+          <div class="mock-bar-row" style="margin-top:10px">
+            <div class="mock-bar-item"><div class="mock-bar-name">S4</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:82%"></div></div><div class="mock-bar-pct">82%</div></div>
+            <div class="mock-bar-item"><div class="mock-bar-name">S3</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:74%"></div></div><div class="mock-bar-pct">74%</div></div>
+            <div class="mock-bar-item"><div class="mock-bar-name">S1</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:68%"></div></div><div class="mock-bar-pct">68%</div></div>
+          </div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">Total Students</div>
+          <div class="mock-card-val">1,247</div>
+          <div class="mock-card-sub" style="color:#4ade80">All enrolled</div>
+        </div>
+        <div class="mock-card mock-wide">
+          <div class="mock-card-label">Recent Payments</div>
+          <div class="mock-list-row"><span class="mock-list-name">Nakawunde Sarah — S.2A</span><span class="mock-list-badge badge-paid">Paid</span></div>
+          <div class="mock-list-row"><span class="mock-list-name">Ssemwanga John — S.4B</span><span class="mock-list-badge badge-pending">Partial</span></div>
+          <div class="mock-list-row"><span class="mock-list-name">Amara Blessing — P.6</span><span class="mock-list-badge badge-over">Overdue</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROBLEM ─── -->
+<section class="problem" id="problem">
+  <div class="section-eyebrow reveal">The Current Reality</div>
+  <h2 class="section-heading reveal">Most schools are still running on <span class="gold">paper, Excel, and guesswork.</span></h2>
+  <div class="pain-grid reveal">
+    <div class="pain-card"><div class="pain-number">01</div><div class="pain-title">Report cards done manually</div><p class="pain-desc">Teachers hand in mark sheets, someone types them up, errors happen, reprinting costs money, and term end is a crisis every time.</p></div>
+    <div class="pain-card"><div class="pain-number">02</div><div class="pain-title">Fee tracking is a mess</div><p class="pain-desc">Bursars use exercise books or Excel. Outstanding balances are unclear. Parents dispute payments. The head never knows the real picture.</p></div>
+    <div class="pain-card"><div class="pain-number">03</div><div class="pain-title">Staff records are scattered</div><p class="pain-desc">Contracts in a drawer, attendance in a book, payroll in someone's head. HR at most schools is completely undigitised.</p></div>
+    <div class="pain-card"><div class="pain-number">04</div><div class="pain-title">No real-time visibility</div><p class="pain-desc">The headteacher has to ask four different people to get a picture of what is happening. There is no single source of truth.</p></div>
+    <div class="pain-card"><div class="pain-number">05</div><div class="pain-title">Internet is unreliable</div><p class="pain-desc">Most systems stop working when internet goes out. Bursars cannot record payments. Everything halts. That is not acceptable here.</p></div>
+    <div class="pain-card"><div class="pain-number">06</div><div class="pain-title">Generic systems don't fit</div><p class="pain-desc">Every school has their own report card format, grading scale, and fee structure. One size never fits all and nobody builds for Uganda.</p></div>
+  </div>
+</section>
+
+<!-- ─── SYSTEM OVERVIEW ─── -->
+<section class="overview-section" id="system">
+  <div class="overview-layout">
+    <div class="overview-text">
+      <div class="section-eyebrow reveal">The System</div>
+      <h2 class="section-heading reveal" style="font-size:clamp(28px,3.2vw,44px);margin-bottom:20px;">One platform.<br>Every operation.<br><span class="gold">Built around you.</span></h2>
+      <p class="overview-desc reveal">A desktop application that works offline, backed by a cloud database that syncs automatically. A web portal for students and parents. A single dashboard for the headteacher to see everything.</p>
+      <ul class="overview-checkmarks reveal">
+        <li><div class="check-icon">✓</div>Desktop app for admin, bursar, DOS and HR — works fully offline</li>
+        <li><div class="check-icon">✓</div>Web portal for students and parents from any smartphone</li>
+        <li><div class="check-icon">✓</div>Report cards use your school's own custom template and format</li>
+        <li><div class="check-icon">✓</div>Boarders and day scholars handled separately throughout the system</li>
+        <li><div class="check-icon">✓</div>WhatsApp notifications to parents for fees and results</li>
+        <li><div class="check-icon">✓</div>Complete audit trail on every action across every module</li>
+      </ul>
+    </div>
+    <div class="arch-visual reveal">
+      <div class="arch-label-row"><div class="arch-label">Desktop — Offline Capable</div><div class="arch-label-line"></div></div>
+      <div class="arch-row">
+        <div class="arch-block gold-tint"><span class="arch-icon">🏫</span><div class="arch-name">Admin & Principal</div><div class="arch-sub">Full oversight dashboard</div></div>
+        <div class="arch-block"><span class="arch-icon">💳</span><div class="arch-name">Finance / Bursar</div><div class="arch-sub">Fees, receipts, expenses</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-block"><span class="arch-icon">📝</span><div class="arch-name">Director of Studies</div><div class="arch-sub">Marks, grades, report cards</div></div>
+        <div class="arch-block"><span class="arch-icon">👔</span><div class="arch-name">HR Module</div><div class="arch-sub">Staff, payroll, leave</div></div>
+      </div>
+      <div class="arch-divider" style="margin:12px 0;background:var(--border);height:1px"></div>
+      <div class="arch-label-row"><div class="arch-label">Sync Engine</div><div class="arch-label-line"></div></div>
+      <div class="arch-row">
+        <div class="arch-block span2" style="background:rgba(201,165,42,0.04);border-color:var(--border-strong)"><span class="arch-icon">☁️</span><div class="arch-name">Neon Cloud Database — Auto Sync When Online</div><div class="arch-sub">Every offline action queued and synced automatically. Conflict-free, timestamped, always in order.</div></div>
+      </div>
+      <div class="arch-divider" style="margin:12px 0;background:var(--border);height:1px"></div>
+      <div class="arch-label-row"><div class="arch-label">Web Only — Any Device</div><div class="arch-label-line"></div></div>
+      <div class="arch-row">
+        <div class="arch-block"><span class="arch-icon">🎓</span><div class="arch-name">Student Portal</div><div class="arch-sub">Results, fees, report cards</div></div>
+        <div class="arch-block"><span class="arch-icon">👨‍👩‍👧</span><div class="arch-name">Parent Portal</div><div class="arch-sub">Child overview, fee balance</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MODULES ─── -->
+<section class="modules-section" id="modules">
+  <div class="section-eyebrow reveal">Eight Modules</div>
+  <h2 class="section-heading reveal">Everything a school needs.<br><span class="gold">Nothing it doesn't.</span></h2>
+  <div class="modules-grid reveal">
+    <div class="mod-card"><div class="mod-icon-wrap">🏫</div><div class="mod-name">Student Management</div><ul class="mod-list"><li>Full student profiles and records</li><li>Boarder vs day scholar flag</li><li>Bulk enrollment via Excel</li><li>Class promotions and demotions</li><li>Transfer letters generated automatically</li><li>Alumni records retained permanently</li></ul></div>
+    <div class="mod-card"><div class="mod-icon-wrap">💳</div><div class="mod-name">Finance & Fees</div><ul class="mod-list"><li>Separate day scholar and boarding fees</li><li>MTN & Airtel Mobile Money</li><li>Instant PDF receipt on payment</li><li>Outstanding balances dashboard</li><li>Scholarships with audit trail</li><li>Full expense tracking by category</li></ul></div>
+    <div class="mod-card"><div class="mod-icon-wrap">📝</div><div class="mod-name">Academics & Results</div><ul class="mod-list"><li>Mark entry per subject per term</li><li>Automatic grade computation</li><li>O-level divisions and primary grades</li><li>Custom report card templates</li><li>Bulk PDF generation by class</li><li>Full academic history per student</li></ul></div>
+    <div class="mod-card"><div class="mod-icon-wrap">👔</div><div class="mod-name">Staff & HR</div><ul class="mod-list"><li>Full staff profiles and documents</li><li>Daily attendance tracking</li><li>Leave management and approvals</li><li>Payroll with NSSF and PAYE</li><li>Payslip PDF per staff member</li><li>Disciplinary records logged</li></ul></div>
+    <div class="mod-card"><div class="mod-icon-wrap">📅</div><div class="mod-name">Calendar & Communication</div><ul class="mod-list"><li>Full school calendar with events</li><li>Exam timetable scheduling</li><li>Broadcast to all parents or specific classes</li><li>WhatsApp fee reminders to parents</li><li>Result availability notifications</li></ul></div>
+    <div class="mod-card"><div class="mod-icon-wrap">📦</div><div class="mod-name">Inventory & Procurement</div><ul class="mod-list"><li>School asset register</li><li>Consumable stock tracking</li><li>Procurement with approvals</li><li>Low stock alerts</li><li>Links to bursar expense module</li></ul></div>
+    <div class="mod-card"><div class="mod-icon-wrap">🎓</div><div class="mod-name">Student & Parent Portals</div><ul class="mod-list"><li>Students access results and report cards</li><li>Parents view fee balance and receipts</li><li>Works on any smartphone</li><li>Results visible only after DOS publishes</li><li>School notices and announcements</li></ul></div>
+    <div class="mod-card"><div class="mod-icon-wrap">📊</div><div class="mod-name">Reports & Analytics</div><ul class="mod-list"><li>Headteacher financial dashboard</li><li>Weekly auto-generated summaries</li><li>Subject pass rate analysis</li><li>Exam performance comparison</li><li>Export to PDF or Excel anytime</li></ul></div>
+  </div>
+</section>
+
+<!-- ─── OFFLINE ─── -->
+<section class="offline-section" id="offline">
+  <div class="offline-layout">
+    <div>
+      <div class="section-eyebrow reveal">Works Offline</div>
+      <h2 class="section-heading reveal" style="font-size:clamp(28px,3.2vw,44px);margin-bottom:20px;">The system keeps working<br>even when the <span class="gold">internet doesn't.</span></h2>
+      <ul class="offline-points reveal">
+        <li class="offline-point"><div class="op-num">01</div><div class="op-text">Every action on the desktop saves locally first, instantly, with no delay or waiting for a connection.</div></li>
+        <li class="offline-point"><div class="op-num">02</div><div class="op-text">The bursar records fees all day with no internet. Receipts print normally as if nothing is wrong.</div></li>
+        <li class="offline-point"><div class="op-num">03</div><div class="op-text">When internet returns, everything syncs to the cloud automatically in the correct order.</div></li>
+        <li class="offline-point"><div class="op-num">04</div><div class="op-text">No data is ever lost. Every record is timestamped and conflict-resolved before syncing.</div></li>
+        <li class="offline-point"><div class="op-num">05</div><div class="op-text">Automatic local backup runs daily. One-click restore from any previous backup point.</div></li>
+      </ul>
+    </div>
+    <div class="offline-visual reveal">
+      <div class="offline-visual-header">
+        <div style="font-size:12px;color:var(--gray-light);font-weight:400">Sync Status</div>
+        <div class="offline-status"><div class="status-pulse"></div>3 Queued</div>
+      </div>
+      <div class="offline-visual-body">
+        <div class="sync-item"><div class="sync-dot d-green"></div><div class="sync-text">Fee payment — UGX 150,000 — S3A Nakawunde</div><div class="sync-badge sb-ok">Synced</div></div>
+        <div class="sync-item"><div class="sync-dot d-green"></div><div class="sync-text">Receipt #0042 generated and printed</div><div class="sync-badge sb-ok">Synced</div></div>
+        <div class="sync-item"><div class="sync-dot d-green"></div><div class="sync-text">Student enrolled — P.6 Amara Blessing</div><div class="sync-badge sb-ok">Synced</div></div>
+        <div class="sync-item"><div class="sync-dot d-gold"></div><div class="sync-text">Mark entry — Mathematics S4B — 38 students</div><div class="sync-badge sb-pending">Pending</div></div>
+        <div class="sync-item"><div class="sync-dot d-gold"></div><div class="sync-text">Fee payment — UGX 80,000 — S1C Ssemwanga</div><div class="sync-badge sb-pending">Pending</div></div>
+        <div class="sync-item"><div class="sync-dot d-gray"></div><div class="sync-text">Staff attendance — HR — Monday 31 March</div><div class="sync-badge sb-queue">Queued</div></div>
+      </div>
+      <div class="offline-footer-bar"><span>Connection status</span><span>OFFLINE — syncing when restored</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ROLES ─── -->
+<section class="roles-section" id="roles">
+  <div class="section-eyebrow reveal">Who Uses the System</div>
+  <h2 class="section-heading reveal">Each person sees only <span class="gold">what they need.</span></h2>
+  <div class="role-tabs reveal">
+    <button class="role-tab active" onclick="switchRole('admin',this)">Admin / Head</button>
+    <button class="role-tab" onclick="switchRole('bursar',this)">Bursar</button>
+    <button class="role-tab" onclick="switchRole('dos',this)">Dir. of Studies</button>
+    <button class="role-tab" onclick="switchRole('hr',this)">HR</button>
+    <button class="role-tab" onclick="switchRole('parent',this)">Parents</button>
+    <button class="role-tab" onclick="switchRole('student',this)">Students</button>
+  </div>
+
+  <div id="rc-admin" class="role-content active">
+    <div><div class="role-title">Administrator / Principal</div><p class="role-desc">The head has full visibility into everything — finance, academics, HR, inventory — from one dashboard. They manage, they do not do the data entry.</p><span class="access-pill">Desktop + Web Access</span></div>
+    <ul class="feat-list"><li>Live dashboard: fees, results, staff, inventory at a glance</li><li>Weekly auto-generated financial and academic summary</li><li>Full school configuration and grading scale settings</li><li>User management: accounts, roles, passwords, permissions</li><li>Broadcast announcements to parents and students</li><li>Pull any report across any module at any time</li><li>Override or approve actions system-wide</li><li>Audit log of everything every user has done</li></ul>
+  </div>
+  <div id="rc-bursar" class="role-content">
+    <div><div class="role-title">Finance / Bursar</div><p class="role-desc">The bursar's entire workflow lives in the system. Fee collection, receipts, outstanding balances, expenses, and financial reports — all offline-capable.</p><span class="access-pill">Desktop — Offline Capable</span></div>
+    <ul class="feat-list"><li>Separate fee structures for day scholars and boarders</li><li>One-click term fee allocation to all students</li><li>Record cash, MTN, Airtel, and bank payments</li><li>Print official numbered PDF receipts immediately</li><li>Real-time outstanding balances by class or student</li><li>Apply scholarships and waivers with mandatory reason</li><li>Record and categorise all school expenses</li><li>Daily, term, and annual financial reports</li></ul>
+  </div>
+  <div id="rc-dos" class="role-content">
+    <div><div class="role-title">Director of Studies</div><p class="role-desc">The DOS enters marks, runs the grading engine, and generates report cards for the whole school — in the school's own format — without a spreadsheet.</p><span class="access-pill">Desktop — Offline Capable</span></div>
+    <ul class="feat-list"><li>Mark entry per subject per assessment type</li><li>Automatic grade and O-level division computation</li><li>Generate report cards using your school's custom template</li><li>Bulk generate an entire class's report cards as PDFs</li><li>Lock marks after deadline to prevent late edits</li><li>Class performance summaries and subject pass rates</li><li>Manage end of year promotions and retention</li><li>Build and print exam timetables</li></ul>
+  </div>
+  <div id="rc-hr" class="role-content">
+    <div><div class="role-title">HR / Administration</div><p class="role-desc">HR manages the full staff lifecycle — from onboarding to monthly payslips — without a spreadsheet or a drawer full of paper.</p><span class="access-pill">Desktop — Offline Capable</span></div>
+    <ul class="feat-list"><li>Full staff profiles with documents and contracts</li><li>Daily staff attendance with monthly reports</li><li>Leave applications, approvals, and balance tracking</li><li>Payroll with NSSF and PAYE deductions computed</li><li>PDF payslip per staff member per month</li><li>Disciplinary and performance records with timestamps</li></ul>
+  </div>
+  <div id="rc-parent" class="role-content">
+    <div><div class="role-title">Parents</div><p class="role-desc">Parents check their child's results and fee balance from home without calling the school. Works on any smartphone over the web.</p><span class="access-pill">Web Portal — Smartphone Friendly</span></div>
+    <ul class="feat-list"><li>View child's report card after school publishes it</li><li>See outstanding fee balance and full payment history</li><li>Download payment receipts as PDF</li><li>Receive WhatsApp alerts for fee reminders and new results</li><li>View school announcements and calendar events</li><li>Update contact information directly</li></ul>
+  </div>
+  <div id="rc-student" class="role-content">
+    <div><div class="role-title">Students</div><p class="role-desc">Students access their academic record from home. Results, report cards, fee statements — all from their phone or computer.</p><span class="access-pill">Web Portal — Read Only</span></div>
+    <ul class="feat-list"><li>View results per term after DOS publishes them</li><li>Download report card as PDF</li><li>Full academic history across all years enrolled</li><li>Check fee balance and payment history</li><li>View school announcements and notice board</li></ul>
+  </div>
+</section>
+
+<!-- ─── PLANS ─── -->
+<section class="plans-section" id="plans">
+  <div class="section-eyebrow reveal">Plans & Licensing</div>
+  <h2 class="section-heading reveal">Simple licensing.<br><span class="gold">No surprises.</span></h2>
+  <div class="plans-grid reveal">
+    <div class="plan-card">
+      <span class="plan-tag">Basic Plan</span>
+      <div class="plan-name">Basic</div>
+      <div class="plan-school">For primary schools up to 500 students</div>
+      <div class="plan-pricing-placeholder"><p>Licensing fee</p><strong>Contact us for pricing</strong></div>
+      <ul class="plan-feats"><li>Up to 500 students enrolled</li><li>Up to 50 staff accounts</li><li>Student management and finance</li><li>Academic module and report cards</li><li>Staff and HR module</li><li>Parent and student web portals</li><li>Full offline desktop application</li><li>WhatsApp and email notifications</li></ul>
+    </div>
+    <div class="plan-card featured">
+      <span class="plan-tag">Standard Plan</span>
+      <div class="plan-name">Standard</div>
+      <div class="plan-school">For secondary schools up to 2,000 students</div>
+      <div class="plan-pricing-placeholder"><p>Licensing fee</p><strong>Contact us for pricing</strong></div>
+      <ul class="plan-feats"><li>Up to 2,000 students enrolled</li><li>Up to 200 staff accounts</li><li>Everything in Basic included</li><li>Exam analytics and reporting</li><li>Alumni management module</li><li>Inventory and procurement module</li><li>Advanced financial reports</li></ul>
+    </div>
+    <div class="plan-card">
+      <span class="plan-tag">Lifetime</span>
+      <div class="plan-name">One-Time</div>
+      <div class="plan-school">Own it permanently at your chosen plan size</div>
+      <div class="plan-pricing-placeholder"><p>One-time fee</p><strong>Contact us for pricing</strong></div>
+      <ul class="plan-feats"><li>All features of your selected plan</li><li>No annual renewal required</li><li>Free updates for 2 years included</li><li>Priority support ongoing</li><li>Ideal for established schools</li></ul>
+    </div>
+  </div>
+  <div class="plans-note reveal">
+    <p>All plans include <strong>full setup, staff training, and ongoing support</strong> from Volt Ventures Group. Renewal reminders go automatically to the school administrator before expiry. Payment accepted via Mobile Money or bank transfer. License duration options: 6 months or 1 year.</p>
+  </div>
+</section>
+
+<!-- ─── CLOSING ─── -->
+<section class="closing" id="contact">
+  <div class="section-eyebrow reveal" style="justify-content:center">Ready to Start</div>
+  <h2 class="closing-title reveal">Let's build something your school <span class="gold">actually needs.</span></h2>
+  <p class="closing-sub reveal">We handle the full setup, train your staff, and stay available when you need support. You focus on running the school.</p>
+  <a href="#" class="btn-gold reveal" style="font-size:13px;padding:15px 34px">Talk to Us</a>
+  <div class="company-row reveal">
+    <div class="company-cell"><div class="company-cell-label">Company</div><div class="company-cell-val">Volt Ventures Group SMC Ltd</div></div>
+    <div class="company-cell"><div class="company-cell-label">Registration No.</div><div class="company-cell-val">80034512724232</div></div>
+    <div class="company-cell"><div class="company-cell-label">Jurisdiction</div><div class="company-cell-val">Republic of Uganda</div></div>
+    <div class="company-cell"><div class="company-cell-label">Incorporated</div><div class="company-cell-val">February 2026</div></div>
+  </div>
+  <div class="closing-bg-text">VOLT VENTURES</div>
+</section>
+
+<footer>
+  <div class="footer-brand"><div class="nav-logo-dot"></div><span>VOLT</span>&nbsp;VENTURES GROUP SMC LTD</div>
+  <div class="footer-mid">School Management System — Built for Uganda</div>
+  <div class="footer-reg">Reg. No: 80034512724232</div>
+</footer>
+
+<script>
+const els = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('in'), i * 60);
+  });
+}, { threshold: 0.08 });
+els.forEach(el => obs.observe(el));
+
+function switchRole(role, btn) {
+  document.querySelectorAll('.role-content').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('rc-' + role).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
